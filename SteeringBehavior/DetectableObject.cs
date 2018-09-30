@@ -631,13 +631,13 @@ public class DetectableObject : MonoBehaviour
 	
 	protected void GetCapsuleEndpoints (out Vector3 vStartCap, out Vector3 vEndCap, bool bScaled = true)
 	{
-		float 			fHeight			= ScaledHeight;
+		float fHeight = ScaledHeight;
 
 		if (!bScaled)
 			fHeight	= Height;
 
-		vStartCap						= new Vector3();
-		vEndCap							= new Vector3();
+		vStartCap = new Vector3();
+		vEndCap	= new Vector3();
 		
 		if (fHeight < 0f)
 		{
@@ -688,21 +688,21 @@ public class DetectableObject : MonoBehaviour
 	
 	protected bool MovingSphereAABBIntersection (Vector3 vVehiclePosition, Vector3 vFuturePostion, float fVehicleRad, out float fT)
 	{
-		Vector3		vBoxMin		= Transform.InverseTransformPoint(_bounds.min);
-		Vector3		vBoxMax		= Transform.InverseTransformPoint(_bounds.max);
-		fT						= 0f;
+		Vector3	vBoxMin	= Transform.InverseTransformPoint(_bounds.min);
+		Vector3	vBoxMax	= Transform.InverseTransformPoint(_bounds.max);
+		fT	= 0f;
 		
-		vBoxMin.x				-= fVehicleRad;
-		vBoxMin.y				-= fVehicleRad;
-		vBoxMin.z				-= fVehicleRad;
-		vBoxMax.x				+= fVehicleRad;
-		vBoxMax.y				+= fVehicleRad;
-		vBoxMax.z				+= fVehicleRad;
+		vBoxMin.x	-= fVehicleRad;
+		vBoxMin.y	-= fVehicleRad;
+		vBoxMin.z	-= fVehicleRad;
+		vBoxMax.x	+= fVehicleRad;
+		vBoxMax.y	+= fVehicleRad;
+		vBoxMax.z	+= fVehicleRad;
 		
-		Vector3		vInter				= Vector3.zero;
-		Vector3		vDir				= (vFuturePostion - vVehiclePosition);
-		bool 		bIntersects			= IntersectRayAABB (vVehiclePosition, vDir, vBoxMin, vBoxMax, out fT, out vInter);
-		bool		bIntersectsFurther	= (vFuturePostion - vVehiclePosition).sqrMagnitude < 
+		Vector3	vInter = Vector3.zero;
+		Vector3	vDir = (vFuturePostion - vVehiclePosition);
+		bool bIntersects = IntersectRayAABB (vVehiclePosition, vDir, vBoxMin, vBoxMax, out fT, out vInter);
+		bool bIntersectsFurther = (vFuturePostion - vVehiclePosition).sqrMagnitude < 
 											(vInter - vVehiclePosition).sqrMagnitude;
 
 		if (!bIntersects || fT > 1f)
@@ -778,11 +778,11 @@ public class DetectableObject : MonoBehaviour
 				
 	protected bool IntersectRayAABB (Vector3 vVehiclePosition, Vector3 vDirection, Vector3 vBoxMin, Vector3 vBoxMax, out float fT, out Vector3 vInter)
 	{	
-		fT						= 0f;
-		float		fT1			= 0f;
-		float		fT2			= 0f;
-		vInter					= Vector3.zero;
-		float		fTMax		= float.MaxValue;
+		fT = 0f;
+		float fT1 = 0f;
+		float fT2 = 0f;
+		vInter = Vector3.zero;
+		float fTMax = float.MaxValue;
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -796,19 +796,19 @@ public class DetectableObject : MonoBehaviour
 			}
 			else
 			{
-				float 	fOod	= 1.0f / vDirection[i];
-				fT1				= (vBoxMin[i] - vVehiclePosition[i]) * fOod;
-				fT2				= (vBoxMax[i] - vVehiclePosition[i]) * fOod;
+				float fOod = 1.0f / vDirection[i];
+				fT1	= (vBoxMin[i] - vVehiclePosition[i]) * fOod;
+				fT2	= (vBoxMax[i] - vVehiclePosition[i]) * fOod;
 				
 				if (fT1 > fT2)
 				{
-					float	fTemp	= fT1;
-					fT1				= fT2;
-					fT2				= fTemp;
+					float fTemp	= fT1;
+					fT1 = fT2;
+					fT2	= fTemp;
 				}
 			
-				fT		= Mathf.Max (fT, fT1);
-				fTMax	= Mathf.Min (fTMax, fT2);
+				fT = Mathf.Max (fT, fT1);
+				fTMax = Mathf.Min (fTMax, fT2);
 			
 				if (fT > fTMax)
 				{
@@ -817,7 +817,7 @@ public class DetectableObject : MonoBehaviour
 			}
 		}
 		
-		vInter					= vVehiclePosition + (vDirection * fT);
+		vInter = vVehiclePosition + (vDirection * fT);
 		
 		return true;
 	}
@@ -828,11 +828,11 @@ public class DetectableObject : MonoBehaviour
 		
 		float 	fTempDist;
 		Vector3	vTempPoint;
-		Vector3	vDir					= (vFutureVehiclePosition - vVehiclePosition).normalized;
-		intersection.Intersect 			= IntersectRaySphere (vVehiclePosition, vDir, Position, 
+		Vector3	vDir = (vFutureVehiclePosition - vVehiclePosition).normalized;
+		intersection.Intersect = IntersectRaySphere (vVehiclePosition, vDir, Position, 
 		                                              fVehicleRad + ScaledRadius, out fTempDist, out vTempPoint);
 
-		bool	bIntersectsFurther		= (vFutureVehiclePosition - vVehiclePosition).sqrMagnitude < (vTempPoint - vVehiclePosition).sqrMagnitude;
+		bool bIntersectsFurther = (vFutureVehiclePosition - vVehiclePosition).sqrMagnitude < (vTempPoint - vVehiclePosition).sqrMagnitude;
 
 		if (intersection.Intersect && bIntersectsFurther)
 		{
@@ -847,47 +847,47 @@ public class DetectableObject : MonoBehaviour
 	
 	protected bool IntersectRaySphere (Vector3 vPoint, Vector3 vDir, Vector3 vCenter, float fRad, out float fT, out Vector3 vInterPoint)
 	{
-		fT								= 0f;
-		vInterPoint						= new Vector3();
-		Vector3 		m 				= vPoint - vCenter;
-		float 			b 				= Vector3.Dot (m, vDir);
-		float			c 				= Vector3.Dot (m, m) - fRad * fRad;
+		fT	= 0f;
+		vInterPoint	= new Vector3();
+		Vector3 m = vPoint - vCenter;
+		float b = Vector3.Dot (m, vDir);
+		float c = Vector3.Dot (m, m) - fRad * fRad;
 		
 		if (c > 0.0f && b > 0.0f)
 		{
 			return false;
 		}
 		
-		float 			discr			= b * b - c;
+		float discr	= b * b - c;
 		
 		if (discr < 0.0f)
 		{
 			return false;
 		}
 		
-		fT								= -b - Mathf.Sqrt (discr);
+		fT= -b - Mathf.Sqrt (discr);
 		
 		if (fT < 0.0f)
 		{
 			fT = 0.0f;
 		}
 		
-		vInterPoint						= vPoint + fT * vDir;
+		vInterPoint	= vPoint + fT * vDir;
 		
 		return true;
 	}
 	
 	protected bool TestRaySphere (Vector3 vPoint, Vector3 vDir, Vector3 vCenter, float fRad)
 	{
-		Vector3 m 	= vPoint - vCenter;
-		float c		= Vector3.Dot (m, m) - fRad * fRad;
+		Vector3 m = vPoint - vCenter;
+		float c	= Vector3.Dot (m, m) - fRad * fRad;
 		
 		if (c <= 0f)
 		{
 			return true;
 		}
 		
-		float b		= Vector3.Dot (m, vDir);
+		float b	= Vector3.Dot (m, vDir);
 		
 		if (b > 0f)
 		{
@@ -915,10 +915,10 @@ public class DetectableObject : MonoBehaviour
 			Transform = GetComponent<Transform>();
 		}
 
-		var scale  		= Transform.lossyScale;
-		_scaledRadius 	= _radius * Mathf.Max(scale.x, Mathf.Max(scale.y, scale.z));
-		_scaledCenter 	= Vector3.Scale(_center, scale);
-		_squaredRadius 	= _scaledRadius * _scaledRadius;
+		var scale  = Transform.lossyScale;
+		_scaledRadius = _radius * Mathf.Max(scale.x, Mathf.Max(scale.y, scale.z));
+		_scaledCenter = Vector3.Scale(_center, scale);
+		_squaredRadius = _scaledRadius * _scaledRadius;
 
 		if (DOColliderType.Capsule == _colliderType)
 		{
